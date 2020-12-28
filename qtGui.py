@@ -5,16 +5,22 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from SQLquery import *
 from SQLupdate import *
 from qtEdit import Ui_EditMenu
-# subprocess -> cpy, bash exec, webbrowser -> open links
+# subprocess -> cpy, shell exec, webbrowser -> open links
 import subprocess, webbrowser
 
 
 
 class Ui_Dashboard(object):
+	def refresh(self):
+		MainWindow = QtWidgets.QMainWindow()
+		ui = Ui_Dashboard()
+		ui.setupUi(MainWindow)
+		MainWindow.repaint()
+
 	def openEditWindow(self, subjectID: int):
 		self.window = QtWidgets.QMainWindow()
 		self.subjectID = subjectID
-		self.ui = Ui_EditMenu(self.subjectID)
+		self.ui = Ui_EditMenu(self, self.subjectID)
 		self.ui.setupUi(self.window)
 		self.window.show()
 
@@ -35,6 +41,7 @@ class Ui_Dashboard(object):
 		print(f"openZoom id: {subjectID}")
 		if (zoomURL := getSubjectZoomURL(subjectID)) != "":
 			# open link in zoom
+			# note: at the moment, the us version is hardcoded - to be fixed
 			bashCommand = "open -a zoom.us " + zoomURL
 			subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 		else: 
@@ -48,7 +55,6 @@ class Ui_Dashboard(object):
 		return lambda: self.openZoom(subjectID)
 
 	# open new window with options to edit
-
 	def addSubject(self):
 		newSubjectID = addSubject("")
 		self.openEditWindow(newSubjectID)
@@ -74,7 +80,6 @@ class Ui_Dashboard(object):
 		
 
 		# no. of subjects
-		# self.tableWidget.setRowCount(len(getAllSubjectIDs()))
 		self.tableWidget.setRowCount(0)
 		self.tableWidget.setColumnCount(4)
 		self.tableWidget.setObjectName("tableWidget")
@@ -179,7 +184,7 @@ class Ui_Dashboard(object):
 
 	def retranslateUi(self, Dashboard):
 		_translate = QtCore.QCoreApplication.translate
-		Dashboard.setWindowTitle(_translate("Dashboard", "Dashboard"))
+		Dashboard.setWindowTitle(_translate("Dashboard", "Starfish Dashboard"))
 		self.menuEdit_s_this.setTitle(_translate("Dashboard", "File"))
 		self.menuFile.setTitle(_translate("Dashboard", "Edit"))
 		self.menuRun.setTitle(_translate("Dashboard", "Run"))

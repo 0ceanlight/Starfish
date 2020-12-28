@@ -16,9 +16,11 @@ from SQLdelete import *
 
 class Ui_EditMenu(object):
 	subjectID = None
-	def __init__(self, subjectID):
+	def __init__(self, Ui_Dashboard, subjectID):
 		super().__init__()
 		self.subjectID = subjectID
+		self.Ui_Dashboard = Ui_Dashboard
+		# print("success")
 
 	def save(self):
 		print("saving...")
@@ -29,15 +31,14 @@ class Ui_EditMenu(object):
 		# Save Zoom Info
 		widgetItem = self.zoomTableWidget.item(0, 0)
 		if widgetItem and widgetItem.text:
-				print(widgetItem.text())
 				zoomUrl = widgetItem.text()
+				print("zoom Url" + zoomUrl)
 		widgetItem = self.zoomTableWidget.item(1, 0)
 		if widgetItem and widgetItem.text:
-				print(widgetItem.text())
 				zoomPass = widgetItem.text()
+				print("zoom Pass" + zoomPass)
 
 		setSubjectZoomInfo(self.subjectID, zoomUrl, zoomPass)
-
 
 		# Save URLs
 		# delete all existing
@@ -50,6 +51,8 @@ class Ui_EditMenu(object):
 				print(widgetItem.text())
 				addSubjectUrl(self.subjectID, widgetItem.text())
 
+		# TODO: reload dashboard
+		self.Ui_Dashboard.refresh()
 		
 
 	def delete(self):
