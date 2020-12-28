@@ -5,17 +5,17 @@ import SQLmain
 # getSubjectID(name: str) -> subject.id
 # getSubjectUrls(subjectID: int) -> urls.url[]
 # getSubjectZoomInfo(subjectID: int) -> [subjects.zoomURL, subjects.zoomPasscode][]
-# addSubject(name: str) -> void
 
-def allSubjectInfo(): # -> [(subject.id: int, name: str, zoomUrl, zoomPasscode)] (array of tuples)
+def getAllSubjectInfo(): # -> [(subject.id: int, name: str, zoomUrl, zoomPasscode)] (array of tuples)
 	SQLmain.cur.execute("SELECT * FROM subjects;")
 	return SQLmain.cur.fetchall()
 
-def allSubjectIDs(): # -> subject.id[()]
+def getAllSubjectIDs(): # -> subject.id[]
 	SQLmain.cur.execute("SELECT id FROM subjects;")
-	return SQLmain.cur.fetchall()
+	# convert array of tuples to array
+	return [item for t in SQLmain.cur.fetchall() for item in t]
 
-def subjectID(name: str): # -> subject.id: int?
+def getSubjectID(name: str): # -> subject.id: int?
 	SQLmain.cur.execute(
 		"""SELECT id FROM subjects
 		WHERE ? = name
@@ -25,26 +25,34 @@ def subjectID(name: str): # -> subject.id: int?
 		LIMIT 1);""", (name, name)
 	)
 	id = SQLmain.cur.fetchall() # [(int,)]
-	if id != []:
+	if id != None and len(id) > 0:
 		return id[0][0]
-	
 
-def subjectUrls(subjectID: int): # -> [(urls.url,), (urls.url2,)]?
+def getSubjectName(subjectID: int): # -> "name"
+	SQLmain.cur.execute("SELECT name FROM subjects WHERE id = ?;", (subjectID,))
+	name = SQLmain.cur.fetchall()
+	if name != None and len(name) > 0:
+		return name[0][0]
+	return ""
+
+def getSubjectURLs(subjectID: int): # -> [(urls.url,), (urls.url2,)]?
 	SQLmain.cur.execute("SELECT url FROM urls WHERE subject_id = ?;", (subjectID,))
-	return SQLmain.cur.fetchall()
+	return [item for t in SQLmain.cur.fetchall() for item in t]
 
-def subjectZoomURL(subjectID: int): # -> str
+def getSubjectZoomURL(subjectID: int): # -> str
 	SQLmain.cur.execute("SELECT zoomUrl FROM subjects WHERE id = ?;", (subjectID,))
-	if (url := SQLmain.cur.fetchall()) != []:
+	url = SQLmain.cur.fetchall()
+	if url != None and len(url) > 0:
 		return url[0][0]
+	return ""
 
-def subjectZoomPasscode(subjectID: int): # -> str
+def getSubjectZoomPasscode(subjectID: int): # -> str
 	SQLmain.cur.execute("SELECT zoomPasscode FROM subjects WHERE id = ?;", (subjectID,))
-	if (passcode := SQLmain.cur.fetchall()) != []:
+	passcode = SQLmain.cur.fetchall()
+	if passcode != None and len(passcode) > 0:
 		return passcode[0][0]
+	return ""
 	
-def subjectAliases(subjectID: int): # -> urls.url[]
+def getSubjectAliases(subjectID: int): # -> urls.url[]
 	SQLmain.cur.execute("SELECT alias FROM aliases WHERE subject_id = ?;", (subjectID,))
 	return SQLmain.cur.fetchall()
-
-print(subjectZoomURL(1))
