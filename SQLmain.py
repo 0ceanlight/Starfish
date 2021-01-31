@@ -16,7 +16,7 @@ import sqlite3
 # (don't ask smh)
 
 
-def createConnection(dbFile): # -> connection
+def createConnection(dbFile) -> sqlite3.Connection:
 	conn = None
 	try: 
 		conn = sqlite3.connect(dbFile)
@@ -41,7 +41,7 @@ cur = conn.cursor()
 # print(cur.fetchall())
 
 # run at the beginning - in case tables have not been created
-def setupDB(): # -> void
+def setupDB() -> None:
 	# Open and read the file as a single buffer
 	file = open('dbSetup.sql', 'r')
 	sqlFile = file.read()

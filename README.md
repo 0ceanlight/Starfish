@@ -3,8 +3,10 @@
 
 
 ## About
-A program created by a virtual student who saw a need for streamlining the routine tasks of opening websites, joining meetings, etc. This program makes it possible to open zoom meetings and all the urls needed for a subject at the click of a button or with only a few keystrokes. This might work best in a virtual school setting, but can be used for much more as well.
+- A program created by a virtual student who saw a need for streamlining the routine tasks of opening websites, joining meetings, etc. This program makes it possible to open zoom meetings and all the urls needed for a subject at the click of a button or with only a few keystrokes. This was designed for a virtual school setting, but can be used for much more.
+- [Project Trailer](https://www.youtube.com/watch?v=zphy5IjFjyM)
 
+<br />
 
 ## Requirements
 
@@ -14,15 +16,17 @@ A program created by a virtual student who saw a need for streamlining the routi
 
 - [PyQt5](https://pypi.org/project/PyQt5/)
 
+<br />
 
 ## Usage
 
 ### GUI version
 
-`python3 atGui.py`
+`python3 qtGui.py`
 
 Add a subject, and enter a subject name to make the subject more identifiable. Under 'URLs', press the '+' button to add URLs to be opened. You can optionally add a zoom URL (which needs to be valid in order to function at all), and the corresponding passcode to the meeting. This passcode will be copied to the clipboard once 'Open meeting' is clicked.
 
+<br />
 
 ### Shell version
 
@@ -38,6 +42,7 @@ Note: Subjects and their info (urls, aliases, etc.) need to be added manually us
 
 Suggestion: Add something like `abbr starfish "python3 starfish.py -s"` to your shell config to streamline the process just a bit more.
 
+<br />
 
 ### Planned Features
 - Deploy the PyQt GUI as an application.
@@ -46,6 +51,9 @@ Suggestion: Add something like `abbr starfish "python3 starfish.py -s"` to your 
 - Create function to add currently open URLs to a specified subject.
 - Save changes to a subject's edit menu automatically.
 
+<br />
 
 ### Possible Issues
-This has only been tested on macOS Catalina. Copying passcodes may cause issues outside of MacOS. This will successfully open meetings in `zoom.us`. Note that meetings can also be launched using a browser.
+This has only been tested on macOS Catalina. Copying passcodes may cause issues outside of MacOS. This will successfully open meetings in `zoom.us`. Note that meetings can also be launched using a browser with the URL feature.
+
+Be sure to let me know if you run into any other issues!
